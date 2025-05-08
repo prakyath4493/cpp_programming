@@ -1,0 +1,138 @@
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Student{
+public:
+    char* name;
+    int id;
+    float marks;
+    char* course;
+
+    Student():id(0), marks(0){
+        cout << "Student Default constructor.\n";
+        name = new char[1];
+        strcpy(name, "");
+        course = new char[1];
+        strcpy(course, "");
+    }
+
+    Student(const char* n, int i, float m, const char* c):id(i), marks(m){
+        cout << "Student Peremeterized constructor.\n";
+        name = new char[strlen(n) + 1];
+        strcpy(name, n);
+        course = new char[strlen(c) + 1];
+        strcpy(course, c);
+    }
+
+    void display(){
+        cout << "Name is: " << name << endl;
+        cout << "Id is: " << id << endl;
+        cout << "Marks is: " << marks << endl;
+        cout << "Course is: " << course << endl << endl;
+    }
+
+    ~Student(){
+        cout << "Student destructor.\n";
+        delete[] name;
+        delete[] course;
+    }
+
+};
+
+class Engg_stud: virtual public Student{
+public:
+    string project;
+    float project_marks;
+
+    Engg_stud():Student(), project(""), project_marks(0){
+        cout << "Engineering Student Default constructor.\n";
+    }
+
+    Engg_stud(const char* n, int i, float m, const char* c, string p, float pm):
+        Student(n, i, m, c), project(p), project_marks(pm){
+            cout << "Engineering Student Peremeterized constructor.\n";
+        }
+
+    void display(){
+        cout << "Name is: " << name << endl;
+        cout << "Id is: " << id << endl;
+        cout << "Marks is: " << marks << endl;
+        cout << "Project is is: " << project << endl;
+        cout << "Project Marks is: " << project_marks << endl << endl;
+    }
+
+    ~Engg_stud(){
+        cout << "Engineering Student destructor.\n";
+    }
+};
+
+class Med_stud: virtual public Student{
+public:
+    float attendance;
+
+    Med_stud():Student(), attendance(0){
+        cout << "Medical Student Default constructor.\n";
+    }
+
+    Med_stud(const char* n, int i, float m, const char* c, float a):
+        Student(n, i, m ,c), attendance(a){
+            cout << "Medical Student Peremeterized constructor.\n";
+        }
+
+    void display(){
+        cout << "Name is: " << name << endl;
+        cout << "Id is: " << id << endl;
+        cout << "Marks is: " << marks << endl;
+        cout << "Course is: " << course << endl;
+        cout << "Attendence percentage: " << attendance << endl << endl;
+    }
+
+    ~Med_stud(){
+        cout << "Medical Student destructor.\n";
+    }
+};
+
+class BioEngineering: public Engg_stud, public Med_stud{
+public:
+    int random;
+
+    BioEngineering(): Engg_stud(), Med_stud(), random(0){
+            cout << "BioEngineering Default constructor\n";
+        }
+
+    BioEngineering(const char* n, int i, float m, const char* c, string p, float pm, float a, int r):
+        Student(n, i, m, c), Engg_stud(n, i, m, c, p, pm), Med_stud(n, i, m, c, a), random(a){
+            cout << "BioEngineering Peremeterized constructor\n";
+        }
+
+
+
+    void display(){
+
+        cout << "Name is: " << name << endl;
+        cout << "Id is: " << id << endl;
+        cout << "Marks is: " << marks << endl;
+        cout << "Course is: " << course << endl;
+        cout << "Project Name: " << project << endl;
+        cout << "Project Marks: " << project_marks << endl;
+        cout << "Attendence percentage: " << attendance << endl;
+        cout << "Random is: " << random << endl << endl;
+    }
+
+};
+
+int main() {
+
+    Student S1("Prakyath", 1000, 89, "EE");
+    Engg_stud E1("Durga", 1001, 67.45, "CSE", "Android Development", 77);
+    E1.display();
+    Med_stud M1("Shwetha", 1002, 74.8, "MBBS", 83);
+    M1.display();
+    BioEngineering B1("joel", 1003, 72.6, "Biochem", "med_drone", 65.4, 78, 101);
+    B1.display();
+    return 0;
+
+}
+
